@@ -479,6 +479,125 @@ By completing this project you will gain hands-on experience with:
 
 ---
 
+# 🗺️ Implementation Roadmap
+
+## ✅ Phase 1 — Project Setup & TypeScript *(Complete)*
+
+> TypeScript project scaffolded with proper folder structure and dev tooling.
+
+**What was done:**
+
+* Installed `typescript`, `ts-node`, `nodemon`
+* Installed `prisma`, `@prisma/client`
+* Created `tsconfig.json` — target ES2020, strict mode, `src/` → `dist/`
+* Added `dev`, `build`, `start` scripts to `package.json`
+* Created `src/app.ts` — Express app with health check `GET /`
+* Created `src/server.ts` — entry point, listens on PORT 5000
+* Scaffolded full `src/` folder structure:
+
+```
+src/
+├── controllers/
+├── services/
+│   ├── tokenBucket/
+│   └── slidingWindow/
+├── repositories/
+├── middleware/
+├── routes/
+├── utils/
+├── app.ts        ✅
+└── server.ts     ✅
+```
+
+**Verified:** `GET /` returns `{ status: "ok", msg: "Rate limiter working" }` ✅
+
+---
+
+## ⬜ Phase 2 — Database: Prisma + PostgreSQL Schema
+
+> Define and migrate the full DB schema via Prisma.
+
+* Run `npx prisma init`
+* Define 3 models in `prisma/schema.prisma`:
+  * `Client` — stores per-client config (algorithm, rate, burst)
+  * `BucketState` — stores live token state per client
+  * `RequestLog` — stores timestamps for sliding window
+* Run `npx prisma migrate dev --name init`
+* Create `src/utils/prismaClient.ts` — singleton Prisma client
+
+---
+
+## ⬜ Phase 3 — Repository Layer
+
+> Isolate all DB queries behind a clean repository pattern.
+
+* `src/repositories/clientRepository.ts`
+* `src/repositories/bucketStateRepository.ts` — includes `SELECT FOR UPDATE` support
+* `src/repositories/requestLogRepository.ts`
+
+---
+
+## ⬜ Phase 4 — Core Rate Limiting Services
+
+> Implement Token Bucket and Sliding Window algorithms.
+
+* `src/services/tokenBucket/tokenBucketService.ts`
+* `src/services/slidingWindow/slidingWindowService.ts`
+* `src/services/rateLimiterRouter.ts` — routes to correct algo based on client config
+
+---
+
+## ⬜ Phase 5 — REST API Layer
+
+> Wire controllers and routes to expose the public API.
+
+| Method | Path | Description |
+|---|---|---|
+| `POST` | `/admin/client` | Create a client |
+| `PUT` | `/admin/client/:clientKey` | Update client config |
+| `GET` | `/admin/client/:clientKey` | Get client details |
+| `POST` | `/check` | Check & consume a token |
+
+* `src/controllers/adminController.ts`
+* `src/controllers/checkController.ts`
+* `src/routes/adminRoutes.ts`
+* `src/routes/checkRoutes.ts`
+* `src/middleware/rateLimitHeaders.ts` — sets `X-RateLimit-*` headers
+
+---
+
+## ⬜ Phase 6 — Testing
+
+> Unit tests, integration tests, and load tests.
+
+* **Unit** — Jest + ts-jest, mocked Prisma (no real DB needed)
+* **Integration** — Supertest against real Express app + test DB
+* **Load** — k6 script targeting 500+ req/sec
+
+---
+
+## ⬜ Phase 7 — Dockerization
+
+> Package app + PostgreSQL into Docker Compose.
+
+* `Dockerfile` — multi-stage Node.js build
+* `docker-compose.yml` — `app` + `db` services with health check
+* `.env.example` — template for environment variables
+
+---
+
+## 🚀 Stretch Goals
+
+| Goal | Tech |
+|---|---|
+| Redis distributed mode | `ioredis` + Lua atomic scripts |
+| Real-time dashboard | Socket.io + React |
+| Prometheus metrics | `prom-client` |
+| Grafana monitoring | Docker Compose service |
+| Kubernetes deployment | `k8s/` manifests |
+
+---
+
 ## License
 
 MIT License
