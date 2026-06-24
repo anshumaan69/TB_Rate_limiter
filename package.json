@@ -1,0 +1,16 @@
+{
+  "name": "tb_rate_limiter",
+  "version": "1.0.0",
+  "description": "A rate limiter that use the token bucket and the sliding window algo distributed sys and advanced backend along with db concepts",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.6",
+    "express": "^5.2.1"
+  }
+}
