@@ -1,0 +1,50 @@
+// This is your Prisma schema file
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model clients {
+  id           String         @id @default(uuid()) @db.Uuid
+  client_key   String         @unique @db.Text
+  algorithm    String         @db.Text // 'token_bucket' or 'sliding_window'
+  rate         Int            // tokens per second or requests per window
+  burst        Int            // max tokens or window size in seconds
+  created_at   DateTime       @default(now()) @db.Timestamp(6)
+  updated_at   DateTime       @updatedAt @db.Timestamp(6)
+  
+  // Relations
+  bucket_state bucket_state?  // One-to-one with bucket state
+  request_logs request_logs[] // One-to-many with request logs
+
+  @@map("clients")
+}
+
+model bucket_state {
+  client_key   String   @id @db.Text
+  tokens       Float    @default(0) // Current token count
+  last_refill  DateTime @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  client clients @relation(fields: [client_key], references: [client_key], onDelete: Cascade)
+
+  @@map("bucket_state")
+}
+
+model request_logs {
+  id           String   @id @default(uuid()) @db.Uuid
+  client_key   String   @db.Text
+  request_time DateTime @default(now()) @db.Timestamp(6)
+  
+  // Relations
+  client clients @relation(fields: [client_key], references: [client_key], onDelete: Cascade)
+
+  // Indexes for performance
+  @@index([client_key, request_time])
+  @@index([request_time])
+  @@map("request_logs")
+}

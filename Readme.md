@@ -513,17 +513,17 @@ src/
 
 ---
 
-## ⬜ Phase 2 — Database: Prisma + PostgreSQL Schema
+## ✅ Phase 2 — Database: Prisma + PostgreSQL Schema *(Complete)*
 
 > Define and migrate the full DB schema via Prisma.
 
-* Run `npx prisma init`
-* Define 3 models in `prisma/schema.prisma`:
+* [x] Run `npx prisma init`
+* [x] Define 3 models in `prisma/schema.prisma`:
   * `Client` — stores per-client config (algorithm, rate, burst)
   * `BucketState` — stores live token state per client
   * `RequestLog` — stores timestamps for sliding window
-* Run `npx prisma migrate dev --name init`
-* Create `src/utils/prismaClient.ts` — singleton Prisma client
+* [x] Run `npx prisma migrate dev --name init`
+* [x] Create `src/utils/prismaClient.ts` — singleton Prisma client
 
 ---
 
