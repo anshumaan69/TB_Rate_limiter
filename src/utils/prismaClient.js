@@ -21,9 +21,7 @@ class PrismaClientSingleton {
 
       PrismaClientSingleton.instance = new PrismaClient({
         adapter,
-        log: process.env.NODE_ENV === 'development' 
-          ? ['query', 'info', 'warn', 'error'] 
-          : ['error']
+        log: ['query', 'info', 'warn', 'error']
       });
     }
     return PrismaClientSingleton.instance;

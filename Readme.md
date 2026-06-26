@@ -547,7 +547,7 @@ src/
 
 ---
 
-## ⬜ Phase 5 — REST API Layer
+## ✅ Phase 5 — REST API Layer *(Complete)*
 
 > Wire controllers and routes to expose the public API.
 
