@@ -19,5 +19,8 @@ export const checkRequest = async (clientKey) => {
         } else {
             throw new Error(`Invalid rate limiting algorithm: ${client.algorithm}`);
         }
+    }, {
+        maxWait: 5000,
+        timeout: 15000
     });
 };
