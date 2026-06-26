@@ -1,13 +1,14 @@
-// src/utils/prismaClient.ts
-// Singleton pattern to prevent multiple connections
+import { PrismaClient } from "@prisma/client";
+
 class PrismaClientSingleton {
-  private static instance: any;
+  static instance;
 
-  private constructor() {}
+  constructor() {
+    throw new Error("Cannot instantiate singleton class directly.");
+  }
 
-  public static getInstance(): any {
+  static getInstance() {
     if (!PrismaClientSingleton.instance) {
-      const { PrismaClient } = require('@prisma/client');
       PrismaClientSingleton.instance = new PrismaClient({
         log: process.env.NODE_ENV === 'development' 
           ? ['query', 'info', 'warn', 'error'] 
@@ -20,8 +21,6 @@ class PrismaClientSingleton {
 
 export const prisma = PrismaClientSingleton.getInstance();
 
-// For testing: allow resetting the instance
-export const resetPrismaInstance = (): void => {
-  // @ts-ignore - resetting singleton for testing
+export const resetPrismaInstance = () => {
   PrismaClientSingleton.instance = null;
 };
