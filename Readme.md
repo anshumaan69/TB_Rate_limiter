@@ -527,7 +527,7 @@ src/
 
 ---
 
-## ⬜ Phase 3 — Repository Layer
+## ✅ Phase 3 — Repository Layer *(Complete)*
 
 > Isolate all DB queries behind a clean repository pattern.
 
@@ -537,7 +537,7 @@ src/
 
 ---
 
-## ⬜ Phase 4 — Core Rate Limiting Services
+## ✅ Phase 4 — Core Rate Limiting Services *(Complete)*
 
 > Implement Token Bucket and Sliding Window algorithms.
 
@@ -566,7 +566,7 @@ src/
 
 ---
 
-## ⬜ Phase 6 — Testing
+## ✅ Phase 6 — Testing *(Complete)*
 
 > Unit tests, integration tests, and load tests.
 
@@ -576,7 +576,7 @@ src/
 
 ---
 
-## ⬜ Phase 7 — Dockerization
+## ✅ Phase 7 — Dockerization *(Complete)*
 
 > Package app + PostgreSQL into Docker Compose.
 
@@ -585,6 +585,7 @@ src/
 * `.env.example` — template for environment variables
 
 ---
+
 
 ## 🚀 Stretch Goals
 
